@@ -1,7 +1,6 @@
 {
-  "name": "game",
-  "version": "0.1.0",
-  "private": true,
+  "name": "Diamon Sweeper",
+  "version": "1",
   "dependencies": {
     "react": "^16.4.0",
     "react-dom": "^16.4.0"
