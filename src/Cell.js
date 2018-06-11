@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-
 class Cell extends Component {
   clickAtCell (x, e) {
-    this.props.onCellClick(x);
+    this.props.handleClick(x);
   }
   getClasses () {
     let classes = 'cell';
@@ -12,9 +11,7 @@ class Cell extends Component {
 
   render () {
     return (
-      <div className={this.getClasses()} onClick={this.clickAtCell.bind(this, this.props.cellId)}>
-      ?
-      </div>
+      <div className={this.getClasses()} onClick={this.clickAtCell.bind(this, this.props.cellId)} />
     );
   }
 }

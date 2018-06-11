@@ -1,5 +1,20 @@
 .App {
   text-align: center;
+  max-width: 640px;
+  margin: 100px auto;
+  border-left: thin solid rgba(0,0,0,0.2);
+  border-bottom: thin solid rgba(0,0,0,0.2);
+}
+body {
+  max-height: 100vh;
+  overflow: hidden;
+  padding: 0;
+  margin: 0;
+}
+.App::after {
+  content: "";
+  clear: both;
+  display: table;
 }
 
 .App-logo {
@@ -28,24 +43,96 @@
 }
 
 .cell {
-  width: 50px;
-  font-size: 30px;
-  line-height: 50px;
+  width: 80px;
+  font-size: 10px;
+  line-height: 80px;
   cursor: pointer;
-  height: 50px;
-  border: thin solid red;
+  color: #999;
+  height: 80px;
+  border-top: thin solid rgba(0,0,0,0.2);
+  border-right: thin solid rgba(0,0,0,0.2);
   position: relative;
+  box-sizing: border-box;
   float: left;
 }
+.cell::after {
+  content: '?';
+  font-size: 24px;
+}
 .cell.clicked {
-  background-color: red;
+  background-color:#fafafa;
 }
-.cell.clicked.has-diamond {
-  background-color: green;
-}
-.row::after {
-  content: "";
-  clear: both;
-  display: table;
+.cell.clicked::after {
+  content: '';
 }
 
+.cell.clicked.has-diamond {
+  background-image: url("https://image.flaticon.com/icons/svg/186/186300.svg");
+  background-size: 30px 30px;
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+
+.diamond {
+  background-image: url("https://image.flaticon.com/icons/svg/186/186300.svg");
+  background-size: 20px 20px;
+  width: 30px;
+  height: 30px;
+  display: inline-block;
+  margin: 15px;
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+
+.header {
+  position: fixed;
+  top: 0px;
+  left: 0;
+  min-height: 50px;
+  background-color: #fafafa;
+  box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.1);
+  width: 100%;
+}
+.header >div {
+  max-width: 640px;
+  margin: 0 auto;
+}
+.header p {
+  text-align: left;
+  float: left;
+}
+.header p:last-child {
+  text-align: right;
+  float: right;
+}
+
+.finish {
+  opacity: 0.3;
+  position: relative;
+}
+.finish::before {
+  position: absolute;
+  top: 50%;
+  font-size: 40px;
+  content: 'Game Finished';
+  position: absolute;
+  top: 0;
+}
+.header .grid {
+  clear: both;
+  max-height: 0;
+  box-sizing: border-box;
+  overflow: hidden;
+  transition: all 0.8s ease-in-out;
+  background-color: white;
+}
+
+.header .grid.finish {
+  max-height: 999px;
+  padding: 300px 0;
+  opacity: 1;
+  background-color: azure;
+}
+.header .grid.finish::before {
+  content: '';
+}

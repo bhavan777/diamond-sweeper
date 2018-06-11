@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import Row from './Row';
+import Cell from './Cell';
 class App extends Component {
   constructor (props) {
     super(props);
@@ -10,13 +10,18 @@ class App extends Component {
     };
     this.getRandomArray = this.getRandomArray;
     this.initialiseData = this.initialiseData;
+    this.gotOneDiamond = this.gotOneDiamond;
     this.handleClick = this.handleClick;
+    this.getRemainingDiamonds = this.getRemainingDiamonds;
+  }
+  gotOneDiamond () {
+    this.setState({targetDiamonds: this.state.targetDiamonds - 1});
   }
 
   getRandomArray (min, max) {
     let arr = [];
     function rand () {
-      var num = min + Math.round(Math.random() * max);
+      var num = min + (Math.floor(Math.random() * (max - 1)));
       let ret = null;
       if (arr.indexOf(num) > 0) {
         ret = rand();
@@ -36,52 +41,70 @@ class App extends Component {
     let width = this.state.gridSize[0];
     let height = this.state.gridSize[1];
     let cells = this.state.gridSize[0] * this.state.gridSize[1];
-    let diamonds = this.getRandomArray(0, cells - 1);
-    console.log(diamonds)
+    let diamonds = this.getRandomArray(1, cells);
+    console.log(diamonds);
     let grid = [];
-    for (let i = 0; i < width; i++) {
-      let row = [];
-      for (let j = 0; j < height; j++) {
-        let cell = {};
-        cell.isClicked = false;
-        cell.hasDiamond = false;
-        if (diamonds.indexOf((i * width) + j)) {
-          cell.hasDiamond = true;
-        }
-        row.push(cell);
+    for (let i = 1; i <= width * height; i++) {
+      let cell = {};
+      cell.isClicked = false;
+      cell.hasDiamond = false;
+      if (diamonds.indexOf(i) > -1) {
+        cell.hasDiamond = true;
       }
-      grid.push(row);
+      grid.push(cell);
     }
-    this.setState({diamonds: diamonds, grid: grid});
+    let temp = [];
+    for (let i = 1; i <= this.state.maxDiamonds; i++) {
+      temp.push('*');
+    }
+    this.setState({diamonds: diamonds, grid: grid, targetDiamonds: this.state.maxDiamonds, remainingDiamonds: temp, score: cells});
   }
 
   componentWillMount () {
     this.initialiseData();
   }
 
-  handleClick (x, y) {
-    console.log(x, y);
+  handleClick (x) {
+    let newScore = this.state.score;
     let newGrid = this.state.grid;
-    newGrid[x][y].isClicked = true;
-    this.setState({grid: newGrid});
-    console.log(this.state.grid[x][y]);
+    // update score
+    if (!newGrid[x - 1].isClicked) {
+      newScore = newScore - 1;
+    }
+    newGrid[x - 1].isClicked = true;
+    if (newGrid[x - 1].hasDiamond) {
+      this.gotOneDiamond();
+    }
+    this.setState({grid: newGrid, score: newScore});
   }
-
   render () {
+    let getclasses = (this.state.targetDiamonds > 0) ? 'grid' : 'grid finish';
     return (
       <div className='App'>
-        {
-          this.state.grid.map((row, i) => {
-            return (
-              <Row
-                key={i}
-                data={row}
-                rowId={i}
-                handleClick={this.handleClick.bind(this)}
-               />
-            );
-          })
-        }
+        <div className='header'>
+          <div>
+            <p><b>Remaining Diamonds in the Grid:</b>{this.state.targetDiamonds}</p>
+            <p className='score'><b>Score : </b>{this.state.score}</p>
+          </div>
+          <div className={getclasses}>
+            You finished the game.<br/><br/>
+            <h2>your final score is {this.state.score}</h2>
+          </div>
+        </div>
+        <div className={getclasses}>
+          {
+            this.state.grid.map((cell, i) => {
+              return (
+                <Cell
+                  key={i}
+                  data={cell}
+                  cellId={i + 1}
+                  handleClick={this.handleClick.bind(this)}
+                />
+              );
+            })
+          }
+        </div>
       </div>
     );
   }
