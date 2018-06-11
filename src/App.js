@@ -42,7 +42,6 @@ class App extends Component {
     let height = this.state.gridSize[1];
     let cells = this.state.gridSize[0] * this.state.gridSize[1];
     let diamonds = this.getRandomArray(1, cells);
-    console.log(diamonds);
     let grid = [];
     for (let i = 1; i <= width * height; i++) {
       let cell = {};

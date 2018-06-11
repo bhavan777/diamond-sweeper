@@ -1,6 +1,6 @@
 {
-  "name": "Diamon Sweeper",
-  "version": "1",
+  "name": "React-Diamond-Sweeper",
+  "version": "0.1.0",
   "dependencies": {
     "react": "^16.4.0",
     "react-dom": "^16.4.0"
