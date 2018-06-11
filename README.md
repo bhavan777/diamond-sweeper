@@ -139,6 +139,7 @@ my-app/
   src/
     App.css
     App.js
+    Cell.js
     App.test.js
     index.css
     index.js

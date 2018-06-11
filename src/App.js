@@ -87,8 +87,10 @@ class App extends Component {
             <p className='score'><b>Score : </b>{this.state.score}</p>
           </div>
           <div className={getclasses}>
-            You finished the game.<br/><br/>
-            <h2>your final score is {this.state.score}</h2>
+            <h2>You finished the game.</h2>
+            <br />
+            <br />
+            <h1>your final score is {this.state.score}</h1>
           </div>
         </div>
         <div className={getclasses}>
